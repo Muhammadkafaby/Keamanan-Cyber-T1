@@ -58,66 +58,37 @@ Langkah serangan (tanpa perlu login):
 #### app.py (modifikasi utama):
 
 ```python
-# Imports tambahan
-from flask import Flask, render_template, request, redirect, url_for, session
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
+from flask import Flask, request, render_template, redirect, url_for, session
 from functools import wraps
-import sqlite3
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'some_secret_key'  # Added for session management
-db = SQLAlchemy(app)
-
-# Decorator untuk memastikan login
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'user_id' not in session:
-            return redirect(url_for('login'))
+        if "user_id" not in session:
+            return redirect(url_for("login"))
         return f(*args, **kwargs)
     return decorated_function
 
-# Route login
-@app.route('/login', methods=['GET', 'POST'])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        if username == 'admin' and password == 'admin123':
-            session['user_id'] = username
-            return redirect(url_for('index'))
-    return render_template('login.html')
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        if username == "admin" and password == "admin123":  # contoh sederhana
+            session["user_id"] = username
+            return redirect(url_for("students"))
+    return render_template("login.html")
 
-# Route logout
-@app.route('/logout')
-@login_required
-def logout():
-    session.pop('user_id', None)
-    return redirect(url_for('login'))
+# Sebelumnya: def students(): tanpa proteksi
+@app.route("/students", methods=["GET", "POST"])
+@login_required                      # <--- ditambahkan
+def students():
+    ...
 
-# Proteksi semua route utama
-@app.route('/')
-@login_required
-def index():
-    # ... list students
-
-@app.route('/add', methods=['POST'])
-@login_required
-def add_student():
-    # ... add student logic
-
-@app.route('/delete/<string:id>')
-@login_required
+@app.route("/students/delete/<int:id>", methods=["POST"])
+@login_required                      # <--- ditambahkan
 def delete_student(id):
-    # ... delete logic
-
-@app.route('/edit/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit_student(id):
-    # ... edit logic
+    ...
 ```
 
 #### templates/login.html (baru):

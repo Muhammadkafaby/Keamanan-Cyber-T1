@@ -1,0 +1,134 @@
+/* Reset dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 18px;
+}
+
+.form-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+.form-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.form-section form {
+    display: grid;
+    gap: 15px;
+}
+
+.form-section label {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.form-section input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-section button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-section button:hover {
+    background-color: #45a049;
+}
+
+/* Tabel Daftar Siswa */
+.students-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.students-list th, .students-list td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.students-list th {
+    background-color: #f2f2f2;
+}
+
+.students-list tr:hover {
+    background-color: #f9f9f9;
+}
+
+.students-list .btn {
+    padding: 8px 15px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.students-list .btn-update {
+    background-color: #2196F3;
+}
+
+.students-list .btn-update:hover {
+    background-color: #0b7dda;
+}
+
+.students-list .btn-delete {
+    background-color: #f44336;
+}
+
+.students-list .btn-delete:hover {
+    background-color: #e53935;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #777;
+}

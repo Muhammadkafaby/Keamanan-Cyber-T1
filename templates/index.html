@@ -27,9 +27,9 @@
             <tbody>
                 {% for student in students %}
                 <tr>
-                    <td>{{ student.name|safe }}</td>
+                    <td>{{ student.name | e }}</td> <!-- tambahkan filter e -->
                     <td>{{ student.age }}</td>
-                    <td>{{ student.grade }}</td>
+                    <td>{{ student.grade | e }}</td>
                     <td>
                         <a href="/edit/{{ student.id }}" class="btn btn-warning">Edit</a>
                         <a href="/delete/{{ student.id }}" class="btn btn-danger">Delete</a>

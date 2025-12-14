@@ -5,6 +5,7 @@ from functools import wraps
 import sqlite3
 
 app = Flask(__name__)
+app.jinja_env.autoescape = True  # pastikan autoescape aktif
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'some_secret_key'  # Added for session management
@@ -18,6 +19,11 @@ class Student(db.Model):
 
     def __repr__(self):
         return f'<Student {self.name}>'
+
+def sanitize_text(value):
+    if any(ch in value for ch in "<>"):
+        raise ValueError("Invalid characters")
+    return value[:100]
 
 def login_required(f):
     @wraps(f)
@@ -53,10 +59,10 @@ def index():
 @app.route('/add', methods=['POST'])
 @login_required
 def add_student():
-    name = request.form['name']
-    age = request.form['age']
-    grade = request.form['grade']
-    
+    name = sanitize_text(request.form['name'])
+    age_str = sanitize_text(request.form['age'])
+    age = int(age_str)
+    grade = sanitize_text(request.form['grade'])
 
     connection = sqlite3.connect('instance/students.db')
     cursor = connection.cursor()
@@ -70,6 +76,7 @@ def add_student():
     query = f"INSERT INTO student (name, age, grade) VALUES ('{name}', {age}, '{grade}')"
     cursor.execute(query)
     connection.commit()
+    cursor.close()
     connection.close()
     return redirect(url_for('index'))
 
@@ -87,10 +94,11 @@ def delete_student(id):
 @login_required
 def edit_student(id):
     if request.method == 'POST':
-        name = request.form['name']
-        age = request.form['age']
-        grade = request.form['grade']
-        
+        name = sanitize_text(request.form['name'])
+        age_str = sanitize_text(request.form['age'])
+        age = int(age_str)
+        grade = sanitize_text(request.form['grade'])
+
         # RAW Query
         db.session.execute(text(f"UPDATE student SET name='{name}', age={age}, grade='{grade}' WHERE id={id}"))
         db.session.commit()
